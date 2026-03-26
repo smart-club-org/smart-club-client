@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+leaflet-container,
+.leaflet-pane,
+.leaflet-tile-pane,
+.leaflet-shadow-pane,
+.leaflet-overlay-pane,
+.leaflet-marker-pane,
+.leaflet-popup-pane,
+.leaflet-control-container {
+  z-index: 10 !important;
+}
+
+.leaflet-popup {
+  z-index: 20 !important;
+}
