@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { apiGet } from "../../api/api.js";
 import Navbar from "../../components/Navbar";
 import MenuModal from "../../components/MenuModal";
+import Footer from "../../components/Footer";
 
 const markerIcon = new L.Icon({
   iconUrl:
@@ -244,6 +245,7 @@ export default function Home() {
           </MapContainer>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

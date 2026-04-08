@@ -10,6 +10,7 @@ import BookingPage from "./pages/booking/BookingPage";
 import History from "./pages/history/History";
 import MyAccount from "./pages/account/MyAccount";
 import ClubDetails from "./pages/clubs/ClubDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
@@ -21,9 +22,11 @@ export default function App() {
             <Route path="/clubs/:id" element={<ClubDetails />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route element={<ProtectedRoute />}>
             <Route path="/booking" element={<BookingPage />} />
             <Route path="/history" element={<History />} />
             <Route path="/account" element={<MyAccount />} />
+            </Route>
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </BrowserRouter>

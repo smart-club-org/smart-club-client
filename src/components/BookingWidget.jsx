@@ -367,7 +367,6 @@ export default function BookingWidget({
         start: startIsoUTC,
         end: endIsoUTC,
         durationMinutes: Math.round(durationHours * 60),
-        totalPrice: computed || undefined
       };
       const res = await apiPost("/booking/reserve", payload);
       if (res?.data?.reservationId || res?.reservationId) {
