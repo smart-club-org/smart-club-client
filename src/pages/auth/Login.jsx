@@ -61,7 +61,7 @@ export default function Login() {
         password: form.password,
       };
       await doLogin(payload);
-      navigate(from);
+      navigate(from, {replace: true});
     } catch (err) {
       console.error("Login error:", err);
       setError(err?.message || "Login failed — check phone and password.");
