@@ -1,6 +1,6 @@
 // src/pages/main/Home.jsx
 import React, { useEffect, useRef, useState } from "react";
-import { MapPin } from "lucide-react";
+import { MapPin, ChevronLeft, ChevronRight } from "lucide-react";  // new 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { useNavigate } from "react-router-dom";
@@ -171,32 +171,122 @@ export default function Home() {
           </div>
         </div>
 
-        <h2 className="text-center text-lg text-gray-300 mb-6">Компьютерные клубы:</h2>
+        <div className="mb-6 text-center">
+  <h2 className="text-3xl md:text-4xl font-bold text-white">
+        Выберите компьютерный клуб
+      </h2>
+      <p className="mt-3 text-sm md:text-base text-gray-400">
+        Найдите удобный клуб и начните бронирование
+      </p>
+    </div>
 
-        <div className="relative bg-[#1A1A1A] p-6 rounded-xl shadow-lg mb-10">
-          <button onClick={goPrev} className="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-black/40 hover:bg-black/60">‹</button>
-          <button onClick={goNext} className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-black/40 hover:bg-black/60">›</button>
+        <div className="relative mb-10 overflow-hidden rounded-[28px] border border-white/5 bg-[#111111] px-5 py-8 md:px-8 md:py-10 shadow-[0_0_40px_rgba(0,0,0,0.35)]">
+          <button
+            onClick={goPrev}
+            className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md transition hover:scale-105 hover:bg-white/10"
+            aria-label="Предыдущая страница"
+          >
+            <ChevronLeft size={24} className="text-white" />
+          </button>
+
+          <button
+            onClick={goNext}
+            className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md transition hover:scale-105 hover:bg-white/10"
+            aria-label="Следующая страница"
+          >
+            <ChevronRight size={24} className="text-white" />
+          </button>
 
           <div className="overflow-hidden">
-            <div ref={containerRef} className="flex w-full" style={{ width: `${totalPages * 100}%`, transform: `translateX(${-(pageIndex * 100) / totalPages}%)` }}>
+            <div
+              ref={containerRef}
+              className="flex w-full"
+              style={{
+                width: `${totalPages * 100}%`,
+                transform: `translateX(${-(pageIndex * 100) / totalPages}%)`,
+              }}
+            >
               {pages.length === 0 ? (
                 <div className="w-full p-2">
-                  {loading ? <div className="text-center text-gray-400 py-8">Загрузка...</div> : loadError ? <div className="text-center text-red-400 py-8">Ошибка: {loadError}</div> : <div className="text-center text-gray-400 py-8">Клубы не найдены</div>}
+                  {loading ? (
+                    <div className="py-10 text-center text-gray-400">Загрузка...</div>
+                  ) : loadError ? (
+                    <div className="py-10 text-center text-red-400">Ошибка: {loadError}</div>
+                  ) : (
+                    <div className="py-10 text-center text-gray-400">Клубы не найдены</div>
+                  )}
                 </div>
               ) : (
                 pages.map((pageItems, pIdx) => (
-                  <div key={pIdx} className="w-full p-2" style={{ width: `${100 / totalPages}%` }}>
-                    <div className={`grid gap-4 ${itemsPerPage === 1 ? "grid-cols-1" : "grid-cols-2 grid-rows-2"}`}>
-                      {pageItems.map((club, idx) => (
-                        <div key={club.id ?? idx} onClick={() => openClub(club)} className={`p-4 border-2 rounded-lg cursor-pointer transition ${ (pIdx * itemsPerPage + idx) % 2 === 0 ? "border-fuchsia-500" : "border-indigo-500" } hover:bg-[#2A2A2A]`}>
-                          <div className="font-extrabold text-xl mb-1">{club.name}</div>
-                          <div className="text-gray-400 text-sm">{club.address}</div>
-                        </div>
-                      ))}
+                  <div
+                    key={pIdx}
+                    className="w-full p-2"
+                    style={{ width: `${100 / totalPages}%` }}
+                  >
+                    <div
+                      className={`grid gap-5 ${
+                        itemsPerPage === 1 ? "grid-cols-1" : "grid-cols-2 grid-rows-2"
+                      }`}
+                    >
+                      {pageItems.map((club, idx) => {
+                        const isPink = (pIdx * itemsPerPage + idx) % 2 === 0;
 
-                      {itemsPerPage > pageItems.length && Array.from({ length: itemsPerPage - pageItems.length }).map((_, i) => (
-                        <div key={`empty-${i}`} className="p-4 border-2 border-transparent rounded-lg bg-transparent" />
-                      ))}
+                        return (
+                          <div
+                            key={club.id ?? idx}
+                            onClick={() => openClub(club)}
+                            className={`group cursor-pointer rounded-[24px] border p-5 md:p-6 transition-all duration-300 hover:-translate-y-1 ${
+                              isPink
+                                ? "border-fuchsia-500/70 shadow-[0_0_30px_rgba(217,70,239,0.18)] hover:shadow-[0_0_38px_rgba(217,70,239,0.28)]"
+                                : "border-violet-500/70 shadow-[0_0_30px_rgba(139,92,246,0.18)] hover:shadow-[0_0_38px_rgba(139,92,246,0.28)]"
+                            } bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.06),_rgba(255,255,255,0.01)_45%,_rgba(0,0,0,0.08)_100%)]`}
+                          >
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="min-w-0">
+                                <h3 className="truncate text-2xl font-extrabold text-white transition group-hover:text-pink-300">
+                                  {club.name}
+                                </h3>
+                                <p className="mt-3 text-base text-gray-400">
+                                  {club.address}
+                                </p>
+                              </div>
+
+                              <div className="shrink-0 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-300">
+                                Открыт
+                              </div>
+                            </div>
+
+                            <div className="my-5 h-px bg-white/10" />
+
+                            <div className="flex items-center justify-end">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  openClub(club);
+                                }}
+                                className={`rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition ${
+                                  isPink
+                                    ? "bg-gradient-to-r from-pink-500 to-fuchsia-600 hover:from-pink-400 hover:to-fuchsia-500"
+                                    : "bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-400 hover:to-purple-500"
+                                }`}
+                              >
+                                Подробнее
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+
+                      {itemsPerPage > pageItems.length &&
+                        Array.from({ length: itemsPerPage - pageItems.length }).map(
+                          (_, i) => (
+                            <div
+                              key={`empty-${i}`}
+                              className="rounded-[24px] border border-transparent bg-transparent"
+                            />
+                          )
+                        )}
                     </div>
                   </div>
                 ))
@@ -204,9 +294,18 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex justify-center mt-6 gap-2">
+          <div className="mt-7 flex justify-center gap-3">
             {Array.from({ length: totalPages }).map((_, p) => (
-              <button key={p} onClick={() => setPageIndex(p)} className={`w-3 h-3 rounded-full ${p === pageIndex ? "bg-pink-500" : "bg-gray-600"}`} aria-label={`page-${p + 1}`} />
+              <button
+                key={p}
+                onClick={() => setPageIndex(p)}
+                className={`h-3 w-3 rounded-full transition ${
+                  p === pageIndex
+                    ? "scale-110 bg-pink-500 shadow-[0_0_12px_rgba(236,72,153,0.8)]"
+                    : "bg-gray-600 hover:bg-gray-500"
+                }`}
+                aria-label={`page-${p + 1}`}
+              />
             ))}
           </div>
         </div>
