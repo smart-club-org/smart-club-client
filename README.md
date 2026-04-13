@@ -12,3 +12,8 @@ Features
 
 Installation
 1. Clone the repository: git clone https://github.com/your-username/smart-club-client.git
+
+Technology Stack:
+React (Frontend framework)
+Vite (Build tool)
+Tailwind CSS (Styling)
